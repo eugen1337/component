@@ -8,8 +8,7 @@ class IFSManager: public IFileManager, public IFolderManager
 	private:
         int fRefCount;
 
-        int a;
-        int b;
+
     public:
         IFSManager();
         ~IFSManager();
@@ -18,11 +17,11 @@ class IFSManager: public IFileManager, public IFolderManager
         virtual ULONG_ __stdcall AddRef();
         virtual ULONG_ __stdcall Release();
 
-        virtual HRESULT_ __stdcall CreateFile(char *path)=0;
-        virtual HRESULT_ __stdcall DeleteFile(char *name)=0;
+        virtual HRESULT_ __stdcall CreateFile(char *path);
+        virtual HRESULT_ __stdcall DeleteFile(char *path);
 
-        virtual HRESULT_ __stdcall CreateFile(char *path)=0;
-        virtual HRESULT_ __stdcall DeleteFile(char *name)=0;
+        virtual HRESULT_ __stdcall CreateFolder(char *path);
+        virtual HRESULT_ __stdcall DeleteFolder(char *path);
 
 };
 
