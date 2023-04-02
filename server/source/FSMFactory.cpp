@@ -55,8 +55,8 @@ HRESULT_ GetClassObject(const CLSID_ &clsid, const IID_ &iid, void **ppv)
 
     s->AddRef();
     HRESULT_ res = s->QueryInterface(iid, ppv);
-    s->Release();
 
+    s->Release();
     return res;
 }
 

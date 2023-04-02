@@ -6,8 +6,8 @@
 using namespace std;
 
 int main() {
- 	//try
- 	//{	    		
+ 	try
+ 	{	    		
 	cout << "Client::Main::Start" << endl;			
 	
     cout << "Client::Main GetClassObject FSMFactory" << endl;			
@@ -20,8 +20,11 @@ int main() {
 	    return 0;		
 	}
 
+    
     IFileManager* pfileMan= NULL;
-    res = pf -> CreateInstanceWPar(IID_IFileManager, (void**)&pfileMan, 1);
+    res = pf -> CreateInstance(IID_IFileManager, (void**)&pfileMan);
+    
+    // CreateInstanceWpar doesn't invoke
 
     if (res == S_OK_)
 	{
@@ -33,7 +36,24 @@ int main() {
 	   cout << "Client::Main::Error" << res << endl;	
 	   return 0;		
 	}
-	
+
+    cout << "Client::Main QueryInterface" << endl;			
+	IFolderManager* pfoldMan = NULL;
+    res = pfileMan -> QueryInterface(IID_IFolderManager, (void**)& pfoldMan);			
+	pfileMan -> Release();
+    if (res==S_OK_)
+	{
+		cout << "Client::Main Success IFolderManager: " << endl;			
+		pfoldMan -> CreateFolder((char*) "C:/myfold");
+	}	
+	else
+    {
+	   cout << "Client::Main::Error IFolderManager: " << res << endl;			
+	}
+    }
+    catch(...) {
+        cout << "Client::Main::Error" << endl;
+    }
 /*
     cout << "Client::Main::QueryInterface IX->IY" << endl;			
 	IY* pIY = NULL;
