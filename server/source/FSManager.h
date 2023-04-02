@@ -3,15 +3,16 @@
 #include "IFileManager.h"
 #include "IFolderManager.h"
 
-class IFSManager: public IFileManager, public IFolderManager
+class FSManager: public IFileManager, public IFolderManager
 {
 	private:
         int fRefCount;
 
 
     public:
-        IFSManager();
-        ~IFSManager();
+        FSManager();
+        FSManager(int a);
+        ~FSManager();
 
         virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv);
         virtual ULONG_ __stdcall AddRef();
@@ -25,4 +26,3 @@ class IFSManager: public IFileManager, public IFolderManager
 
 };
 
- HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);

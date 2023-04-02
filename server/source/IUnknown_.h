@@ -10,12 +10,17 @@ const int IID_IUnknown_ = 0;
 const int IID_IFileManager = 1;
 const int IID_IFolderManager = 2;
 
+const int IID_IClassFactory_ = 100;
+const int IID_IFSMFactory = 101;
+
+
 const int S_OK_ = 0;
 const int E_NOINTERFACE_ = 1;
 const int E_NOCOMPONENT_ = 2;
 
 const int CLSID_IFSManager = 1;
 
+const int CLSID_FSMFactory = 1;
 
 class IUnknown_
 {
@@ -24,3 +29,6 @@ class IUnknown_
         virtual ULONG_ __stdcall AddRef() = 0;
         virtual ULONG_ __stdcall Release() = 0;
 };
+
+HRESULT_ __stdcall GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
+HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);

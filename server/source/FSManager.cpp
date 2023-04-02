@@ -1,42 +1,26 @@
-#include "IFSManager.h"
+#include "FSManager.h"
 #include <iostream>
 //#include <windows.h>
 
-HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
-{
-    IUnknown_* piu = NULL;
-
-    if (clsid == CLSID_IFSManager)
-    {
-        piu = (IUnknown_*) (IFileManager*) new IFSManager();
-    }
-    else
-    {
-        *ppv = NULL;
-        return E_NOCOMPONENT_;
-    }
-
-    piu -> AddRef();
-    HRESULT_ res = piu -> QueryInterface(iid, ppv);
-    piu -> Release();
-    
-    return res;
-}
-
-
-IFSManager::IFSManager()
+FSManager::FSManager()
 {
     std::cout<<"IFSManager Consructor"<<std::endl;
     fRefCount = 0;
 }
 
-IFSManager::~IFSManager()
+FSManager::FSManager(int a)
+{
+    std::cout<<"IFSManager Consructor2"<<std::endl;
+    fRefCount = 0;
+}
+
+FSManager::~FSManager()
 {
     std::cout<<"IFSManager Destruct"<<std::endl;
     fRefCount = 0;
 }
 
-HRESULT_ IFSManager::QueryInterface(const IID_& iid, void** ppv)
+HRESULT_ FSManager::QueryInterface(const IID_& iid, void** ppv)
 {
     if (iid == IID_IUnknown_)
     {
@@ -61,7 +45,7 @@ HRESULT_ IFSManager::QueryInterface(const IID_& iid, void** ppv)
     return S_OK_;
 }
 
-ULONG_ IFSManager::AddRef()
+ULONG_ FSManager::AddRef()
 {
     std::cout<<"IFSManager AddRef"<<std::endl;
     fRefCount++;
@@ -69,7 +53,7 @@ ULONG_ IFSManager::AddRef()
     return fRefCount;
 }
 
-ULONG_ IFSManager::Release()
+ULONG_ FSManager::Release()
 {
     std::cout<<"IFSManager Release"<<std::endl;
     fRefCount--;
@@ -83,7 +67,7 @@ ULONG_ IFSManager::Release()
     return fRefCount;
 }
 
-HRESULT_ IFSManager::CreateFile(char *path)
+HRESULT_ FSManager::CreateFile(char *path)
 { /*
     HANDLE hFile;
     LPCTSTR lpFileName = (LPCTSTR) "D:\\somefile.txt"; // имя файла
@@ -111,17 +95,17 @@ HRESULT_ IFSManager::CreateFile(char *path)
     return 0;
 }
 
-HRESULT_ IFSManager::DeleteFile(char *path)
+HRESULT_ FSManager::DeleteFile(char *path)
 {
     std::cout<<"IFSManager::CreateFile"<<std::endl;
     return 0;  
 }
-HRESULT_ IFSManager::CreateFolder(char *path)
+HRESULT_ FSManager::CreateFolder(char *path)
 {
     std::cout<<"IFSManager::CreateFolder"<<std::endl;
     return 0;
 }
-HRESULT_ IFSManager::DeleteFolder(char *path)
+HRESULT_ FSManager::DeleteFolder(char *path)
 {
     std::cout<<"IFSManager::DeleteFolder"<<std::endl;
     return 0;
