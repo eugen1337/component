@@ -31,4 +31,4 @@ class IUnknown_
 };
 
 extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
-/*HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);*/
+//HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);

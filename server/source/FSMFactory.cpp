@@ -4,7 +4,7 @@
 #include <windows.h>
 #include <iostream>
 
-HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
+/*HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
 {
     std::cout<<"CreateInstance global"<<std::endl;
 
@@ -15,8 +15,8 @@ HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
         return res;
     }
 
-    IUnknown_ *o = NULL;
-
+    res = cf -> CreateInstance(iid, (void **) &ppv);
+    
     if (iid == IID_IFileManager)
     {
         res = cf -> CreateInstance(iid, (void **) &o);
@@ -36,7 +36,7 @@ HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
 
     return res;
 
-}
+}*/
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -112,13 +112,13 @@ HRESULT_ FSMFactory::CreateInstanceWPar(const IID_& iid, void** ppv, int a)
 
 FSMFactory::FSMFactory()
 {
-    std::cout<<"IFSManager Consructor"<<std::endl;
+    std::cout<<"FSMFactory Consructor"<<std::endl;
     fRefCount = 0;
 }
 
 FSMFactory::~FSMFactory()
 {
-    std::cout<<"IFSManager Destruct"<<std::endl;
+    std::cout<<"FSMFactory Destruct"<<std::endl;
 }
 
 HRESULT_ FSMFactory::QueryInterface(const IID_& iid, void** ppv)
@@ -148,7 +148,7 @@ HRESULT_ FSMFactory::QueryInterface(const IID_& iid, void** ppv)
 
 ULONG_ FSMFactory::AddRef()
 {
-    std::cout<<"IFSManager AddRef"<<std::endl;
+    std::cout<<"FSMFactory AddRef"<<std::endl;
     fRefCount++;
 
     return fRefCount;
@@ -156,7 +156,7 @@ ULONG_ FSMFactory::AddRef()
 
 ULONG_ FSMFactory::Release()
 {
-    std::cout<<"IFSManager Release"<<std::endl;
+    std::cout<<"FSMFactory Release"<<std::endl;
     fRefCount--;
 
     if (fRefCount == 0)

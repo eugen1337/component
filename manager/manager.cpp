@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <iostream>
 
+#include "IClassFactory.h"
+/*
 using IID_ = int;
 using CLSID_ = int;
 using HRESULT_ = int;
@@ -21,12 +23,12 @@ const int E_NOCOMPONENT_ = 2;
 
 const int CLSID_IFSManager = 1;
 
-const int CLSID_FSMFactory = 1;
+const int CLSID_FSMFactory = 1;*/
 
 
 typedef HRESULT_ __stdcall (*DllGetClassObjectType) (const CLSID_& clsid, const IID_& iid, void** ppv);
 
-/*
+
 extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
 {
     std::cout<<"CreateInstance global"<<std::endl;
@@ -38,8 +40,8 @@ extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_&
         return res;
     }
 
-    IUnknown_ *o = NULL;
-
+    res = cf -> CreateInstance(iid, (void **) &ppv);
+    /*
     if (iid == IID_IFileManager)
     {
         res = cf -> CreateInstance(iid, (void **) &o);
@@ -51,7 +53,7 @@ extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_&
         res = cf -> CreateInstance(iid, (void **) &o);
         *ppv = (IUnknown_*)(IFolderManager*) o;
     }
-
+    */
     if (res != S_OK_) {
         ppv = NULL;
         return res;
@@ -59,11 +61,10 @@ extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_&
 
     return res;
 
-}*/
+}
 
 extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv)
 {
-    // есть вопросы по типу
     TCHAR* path = (TCHAR*) "./manager/server.dll";
     HINSTANCE h = LoadLibrary(path);
 

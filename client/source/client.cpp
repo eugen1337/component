@@ -60,13 +60,42 @@ int main() {
 	if (res == S_OK_)
 	{
 		cout << "Client::Main Success IFolderManager: " << endl;
-		pfoldMan->CreateFolder((char *)"C:/myfold");
+		pfoldMan -> CreateFolder((char *)"C:/myfold");
 	}
 	else
 	{
 		cout << "Client::Main::Error IFolderManager: " << res << endl;
 	}
 
+
+	cout << "Client::Main::CreateInstance Test" << endl;	
+	path = (TCHAR*) "./lib/manager.dll";
+    h = LoadLibrary(path);
+
+	if (!h)
+    {
+        std::cout<<"Cliene::Main::dll error!!!\n";
+        return 3;
+    }
+
+	if (!h)
+    {
+        std::cout<<"Cliene::Main::dll error!!!\n";
+        return 3;
+    }
+
+	cout << "Client::Main::GetProcAddress(h,'CreateInstance');" << endl;	
+	DllGetClassObjectType CreateInst = (DllGetClassObjectType) GetProcAddress(h,"CreateInstance");
+
+    if (!GetClsObj)
+    {
+        std::cout<<"dll error!!!\n";
+        return 3;
+    }
+
+	res = CreateInst(CLSID_IFSManager, IID_IFSMFactory, (void**) &pfileMan);	
+
+	pfileMan -> CreateThisFile((char *)"NEW FILE");
 	/*
  	try
  	{	    		
