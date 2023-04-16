@@ -67,7 +67,7 @@ ULONG_ FSManager::Release()
     return fRefCount;
 }
 
-HRESULT_ FSManager::CreateFile(char *path)
+HRESULT_ FSManager::CreateThisFile(char *path)
 { /*
     HANDLE hFile;
     LPCTSTR lpFileName = (LPCTSTR) "D:\\somefile.txt"; // имя файла

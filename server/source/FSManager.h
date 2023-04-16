@@ -18,7 +18,7 @@ class FSManager: public IFileManager, public IFolderManager
         virtual ULONG_ __stdcall AddRef();
         virtual ULONG_ __stdcall Release();
 
-        virtual HRESULT_ __stdcall CreateFile(char *path);
+        virtual HRESULT_ __stdcall CreateThisFile(char *path);
         virtual HRESULT_ __stdcall DeleteFile(char *path);
 
         virtual HRESULT_ __stdcall CreateFolder(char *path);
