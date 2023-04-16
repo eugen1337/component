@@ -21,4 +21,4 @@ class FSMFactory : public IClassFactory_, public IFSMFactory
         virtual HRESULT_ __stdcall CreateInstanceWPar(const IID_& iid, void** ppv, int a);
 };
 
-HRESULT_ __stdcall GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
+extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);

@@ -1,6 +1,7 @@
 #include "FSMFactory.h"
 #include "FSManager.h"
 
+#include <windows.h>
 #include <iostream>
 
 HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
@@ -37,8 +38,33 @@ HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
 
 }
 
+BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+    switch (fdwReason)
+    {
+        case DLL_PROCESS_ATTACH:
+            std::cout<<"DLL CONNECTED"<<std::endl;
+            break;
 
-HRESULT_ GetClassObject(const CLSID_ &clsid, const IID_ &iid, void **ppv)
+        case DLL_PROCESS_DETACH:
+            // detach from process
+            break;
+
+        case DLL_THREAD_ATTACH:
+            // attach to thread
+            break;
+
+        case DLL_THREAD_DETACH:
+            // detach from thread
+            break;
+    }
+
+    return TRUE; // succesful
+}
+
+
+
+extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_ &clsid, const IID_ &iid, void **ppv)
 {
     std::cout << "GetClassObject" << std::endl;
     IUnknown_ *s = NULL;
