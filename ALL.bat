@@ -1,9 +1,6 @@
-g++ -c ./server/source/FSManager.cpp -o ./server/build/FSManager.o
-g++ -c ./server/source/FSMFactory.cpp -o ./server/build/FSMFactory.o
+g++ -c ./server/source/Components.cpp -o ./server/build/Components.o
 
-g++ -shared ./server/build/FSManager.o ./server/build/FSMFactory.o -o ./manager/server.dll -Wl,--kill-at
-
-
+g++ -shared ./server/build/Components.o -o ./manager/server.dll -Wl,--kill-at
 
 g++ -c ./manager/manager.cpp -o ./manager/manager.o
 

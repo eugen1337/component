@@ -1,12 +1,11 @@
-#include "lib/IFileManager.h"
-#include "lib/IFolderManager.h"
+#include "lib/Interfaces.h"
 #include "lib/FSMFactory.h"
 
 #include <windows.h>
 #include <iostream>
 using namespace std;
 
-typedef HRESULT_ __stdcall (*DllGetClassObjectType) (const CLSID_& clsid, const IID_& iid, void** ppv);
+typedef HRESULT __stdcall (*DllGetClassObjectType) (const CLSID& clsid, const IID& iid, void** ppv);
 
 int main() {
 	cout << "Client::Main::Start" << endl;	
@@ -29,11 +28,11 @@ int main() {
     }
 
 	FSMFactory* pf = NULL;
-	HRESULT_ res = GetClsObj(CLSID_IFSManager, IID_IFSMFactory, (void**) &pf);
+	HRESULT res = GetClsObj(CLSID_IFSManager, IID_IFSMFactory, (void**) &pf);
 
-	if (res != S_OK_)
+	if (res != S_OK)
 	{
-		cout << "Client::Main::Error Factory for CServer or IClassFactory_: " << res << endl;	
+		cout << "Client::Main::Error Factory for CServer or IClassFactory: " << res << endl;	
 		return 0;	
 	}
 
@@ -42,7 +41,7 @@ int main() {
 
 	// CreateInstanceWpar doesn't invoke
 
-	if (res == S_OK_)
+	if (res == S_OK)
 	{
 		pfileMan -> CreateThisFile((char *)"AHAHA");
 		cout << "Client::Main::Success pIFSManager: " << endl;
@@ -57,7 +56,7 @@ int main() {
 	IFolderManager *pfoldMan = NULL;
 	res = pfileMan->QueryInterface(IID_IFolderManager, (void **)&pfoldMan);
 	pfileMan->Release();
-	if (res == S_OK_)
+	if (res == S_OK)
 	{
 		cout << "Client::Main Success IFolderManager: " << endl;
 		pfoldMan -> CreateFolder((char *)"C:/myfold");

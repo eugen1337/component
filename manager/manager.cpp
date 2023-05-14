@@ -1,23 +1,23 @@
 #include <windows.h>
 #include <iostream>
 
-#include "IClassFactory.h"
+#include "Interfaces.h"
 
-typedef HRESULT_ __stdcall (*DllGetClassObjectType) (const CLSID_& clsid, const IID_& iid, void** ppv);
+typedef HRESULT __stdcall (*DllGetClassObjectType) (const CLSID& clsid, const IID& iid, void** ppv);
 
 
-extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
+extern "C" HRESULT __stdcall __declspec(dllexport) CreateInstance(const CLSID& clsid, const IID& iid, void** ppv)
 {
     std::cout<<"CreateInstance global"<<std::endl;
 
-    IClassFactory_ *cf = NULL;
-    HRESULT_ res = GetClassObject(clsid, IID_IClassFactory_, (void**) &cf);
+    /*IClassFactory *cf = NULL;
+    HRESULT res = GetClassObject(clsid, IID_IClassFactory, (void**) &cf);
     
-    if (res != S_OK_) {
+    if (res != S_OK) {
         return res;
     }
 
-    res = cf -> CreateInstance(iid, (void **) &ppv);
+    //res = cf -> CreateInstance(iid, (void **) &ppv);
     /*
     if (iid == IID_IFileManager)
     {
@@ -31,22 +31,24 @@ extern "C" HRESULT_ __stdcall __declspec(dllexport) CreateInstance(const CLSID_&
         *ppv = (IUnknown_*)(IFolderManager*) o;
     }
     */
-    if (res != S_OK_) {
+    /*if (res != S_OK) {
         ppv = NULL;
         return res;
     }
 
-    return res;
+    return res;*/
+    return S_OK;
 
 }
 
-extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv)
+extern "C" HRESULT __stdcall __declspec(dllexport) GetClassObject(const CLSID& clsid, const IID& iid, void** ppv)
 {
+    std::cout<< "MANAGER:: GetClassObject" << std::endl;
     TCHAR* path = (TCHAR*) "./manager/server.dll";
     HINSTANCE h = LoadLibrary(path);
 
     if (clsid != CLSID_FSMFactory) {
-        return E_NOCOMPONENT_;
+        return E_NOTIMPL;
     }
     
     if (!h)
@@ -55,7 +57,7 @@ extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_&
         return 3;
     }
 
-    DllGetClassObjectType GetClsObj = (DllGetClassObjectType) GetProcAddress(h,"GetClassObject");
+    DllGetClassObjectType GetClsObj = (DllGetClassObjectType) GetProcAddress(h,"DllGetClassObject");
 
     if (!GetClsObj)
     {
@@ -71,7 +73,7 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
     switch (fdwReason)
     {
         case DLL_PROCESS_ATTACH:
-            std::cout<<"DLL CONNECTED"<<std::endl;
+            std::cout<<"MANAGER DLL CONNECTED"<<std::endl;
             break;
 
         case DLL_PROCESS_DETACH:
