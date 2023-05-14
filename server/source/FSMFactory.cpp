@@ -1,8 +1,15 @@
 #include "FSMFactory.h"
 #include "FSManager.h"
 
+
+
 #include <windows.h>
 #include <iostream>
+
+
+typedef HRESULT __stdcall (*FunctionType) (const CLSID_& clsid, const IID_& iid, void** ppv);
+
+//--------------------------------------------------
 
 /*HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
 {
@@ -113,6 +120,51 @@ HRESULT_ FSMFactory::CreateInstanceWPar(const IID_& iid, void** ppv, int a)
 FSMFactory::FSMFactory()
 {
     std::cout<<"FSMFactory Consructor"<<std::endl;
+
+    IFactory *IF = NULL;
+
+    printf("FSMFactory::GetClassObject\n");
+
+    FunctionType GCO;
+
+
+    HINSTANCE h;
+    TCHAR* path = (TCHAR*) "./lib/dllmanager.dll";
+    h = LoadLibrary(path);
+
+    if (!h) {
+        printf("!\n");
+        throw "";
+    }
+    printf("!1\n");
+    GCO = (FunctionType) GetProcAddress(h, "GetClassObject");
+
+    if (!GCO) {
+        printf("!!\n");
+        throw "Error while creating CMatrix: No function";
+    }
+    
+    HRESULT_ res = GCO(CLSID_FactoryA, IID_IFactory, (void**) &IF);
+
+    if (res != S_OK_) {
+        throw "Error while creating CMatrixA";
+    }
+
+    res = IF->CreateInstance(IID_IMatrix, (void**) &IM);
+    if (res == E_NOINTERFACE_) {
+        throw "Error while creating CMatrixA: Unsupported interface";
+    }
+
+    res = IF->CreateInstance(IID_IMatrixA, (void**) &IMA);
+    if (res == E_NOINTERFACE_) {
+        throw "Error while creating CMatrixA: Unsupported interface";
+    }
+
+    IF->Release();
+
+    
+
+    
     fRefCount = 0;
 }
 
@@ -167,3 +219,7 @@ ULONG_ FSMFactory::Release()
     
     return fRefCount;
 }
+
+//---------------------------------------
+
+
