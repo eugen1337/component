@@ -1,9 +1,8 @@
 #pragma once
 
-#include "IClassFactory.h"
-#include "IFSMFactory.h"
+#include "Interfaces.h"
 
-class FSMFactory : public IClassFactory_, public IFSMFactory
+class FSMFactory : public IClassFactory, public IFSMFactory
 {
     private:
         int fRefCount;
@@ -13,12 +12,15 @@ class FSMFactory : public IClassFactory_, public IFSMFactory
         FSMFactory();
         ~FSMFactory();
 
-        virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv);
-        virtual HRESULT_ __stdcall AddRef();
-        virtual HRESULT_ __stdcall Release();
+        virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
+        virtual ULONG __stdcall AddRef();
+        virtual ULONG __stdcall Release();
 
-        virtual HRESULT_ __stdcall CreateInstance(const IID_& iid, void** ppv);
-        virtual HRESULT_ __stdcall CreateInstanceWPar(const IID_& iid, void** ppv, int a);
+        virtual HRESULT __stdcall CreateInstance(const IID& iid, void** ppv);
+        virtual HRESULT __stdcall CreateInstance(IUnknown *pUnkOuter, const IID& iid, void** ppv);
+        virtual HRESULT __stdcall CreateInstanceWPar(const IID& iid, void** ppv, int a);
+
+        virtual HRESULT __stdcall LockServer(BOOL bLock);
 };
 
-extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
+extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID& clsid, const IID& iid, void** ppv);

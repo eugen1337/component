@@ -1,6 +1,5 @@
 #include "FSManager.h"
 #include <iostream>
-//#include <windows.h>
 
 FSManager::FSManager()
 {
@@ -20,11 +19,11 @@ FSManager::~FSManager()
     fRefCount = 0;
 }
 
-HRESULT_ FSManager::QueryInterface(const IID_& iid, void** ppv)
+HRESULT FSManager::QueryInterface(const IID& iid, void** ppv)
 {
-    if (iid == IID_IUnknown_)
+    if (iid == IID_IUnknown)
     {
-        *ppv = (IUnknown_*) (IFileManager*) this;
+        *ppv = (IUnknown*) (IFileManager*) this;
     }
     else if (iid == IID_IFileManager)
     {
@@ -37,15 +36,15 @@ HRESULT_ FSManager::QueryInterface(const IID_& iid, void** ppv)
     else
     {
         *ppv = NULL;
-        return E_NOINTERFACE_;
+        return E_NOINTERFACE;
     }
     
-    this->AddRef();
+    this -> AddRef();
 
-    return S_OK_;
+    return S_OK;
 }
 
-ULONG_ FSManager::AddRef()
+ULONG FSManager::AddRef()
 {
     std::cout<<"IFSManager AddRef"<<std::endl;
     fRefCount++;
@@ -53,7 +52,7 @@ ULONG_ FSManager::AddRef()
     return fRefCount;
 }
 
-ULONG_ FSManager::Release()
+ULONG FSManager::Release()
 {
     std::cout<<"IFSManager Release"<<std::endl;
     fRefCount--;
@@ -67,7 +66,7 @@ ULONG_ FSManager::Release()
     return fRefCount;
 }
 
-HRESULT_ FSManager::CreateThisFile(char *path)
+HRESULT FSManager::CreateThisFile(char *path)
 { /*
     HANDLE hFile;
     LPCTSTR lpFileName = (LPCTSTR) "D:\\somefile.txt"; // имя файла
@@ -95,17 +94,17 @@ HRESULT_ FSManager::CreateThisFile(char *path)
     return 0;
 }
 
-HRESULT_ FSManager::DeleteFile(char *path)
+HRESULT FSManager::DeleteFile(char *path)
 {
     std::cout<<"IFSManager::CreateFile"<<std::endl;
     return 0;  
 }
-HRESULT_ FSManager::CreateFolder(char *path)
+HRESULT FSManager::CreateFolder(char *path)
 {
     std::cout<<"IFSManager::CreateFolder"<<std::endl;
     return 0;
 }
-HRESULT_ FSManager::DeleteFolder(char *path)
+HRESULT FSManager::DeleteFolder(char *path)
 {
     std::cout<<"IFSManager::DeleteFolder"<<std::endl;
     return 0;

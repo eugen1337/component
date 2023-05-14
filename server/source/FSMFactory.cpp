@@ -1,49 +1,15 @@
 #include "FSMFactory.h"
 #include "FSManager.h"
-
-#include <windows.h>
 #include <iostream>
 
-/*HRESULT_ CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv)
-{
-    std::cout<<"CreateInstance global"<<std::endl;
-
-    IClassFactory_ *cf = NULL;
-    HRESULT_ res = GetClassObject(clsid, IID_IClassFactory_, (void**) &cf);
-    
-    if (res != S_OK_) {
-        return res;
-    }
-
-    res = cf -> CreateInstance(iid, (void **) &ppv);
-    
-    if (iid == IID_IFileManager)
-    {
-        res = cf -> CreateInstance(iid, (void **) &o);
-        *ppv = (IUnknown_*)(IFileManager*) o;
-
-    }
-    else if (iid == IID_IFolderManager)
-    {
-        res = cf -> CreateInstance(iid, (void **) &o);
-        *ppv = (IUnknown_*)(IFolderManager*) o;
-    }
-
-    if (res != S_OK_) {
-        ppv = NULL;
-        return res;
-    }
-
-    return res;
-
-}*/
+// DLL --------------------------
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
     switch (fdwReason)
     {
         case DLL_PROCESS_ATTACH:
-            std::cout<<"DLL CONNECTED"<<std::endl;
+            std::cout<<"FSM::DLL CONNECTED"<<std::endl;
             break;
 
         case DLL_PROCESS_DETACH:
@@ -62,49 +28,59 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
     return TRUE; // succesful
 }
 
-
-
-extern "C" HRESULT_ __stdcall __declspec(dllexport) GetClassObject(const CLSID_ &clsid, const IID_ &iid, void **ppv)
+extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID &clsid, const IID &iid, void **ppv)
 {
     std::cout << "GetClassObject" << std::endl;
-    IUnknown_ *s = NULL;
+    IUnknown *s = NULL;
 
     if (clsid == CLSID_FSMFactory)
     {
-        s = (IUnknown_ *)(IClassFactory_ *)new FSMFactory();
+        s = (IUnknown *)(IClassFactory *)new FSMFactory();
     }
     else
     {
         *ppv = NULL;
-        return E_NOCOMPONENT_;
+        return E_NOTIMPL;
     }
 
     s->AddRef();
-    HRESULT_ res = s->QueryInterface(iid, ppv);
+    HRESULT res = s->QueryInterface(iid, ppv);
 
     s->Release();
     return res;
 }
 
-HRESULT_ FSMFactory::CreateInstance(const IID_& iid, void** ppv)
+HRESULT FSMFactory::CreateInstance(const IID& iid, void** ppv)
 {
     std::cout << "FSMFactory CreateInstance" << std::endl;
     FSManager* s = new FSManager();
 
     s -> AddRef();
-    HRESULT_ res =  s -> QueryInterface(iid, ppv);
+    HRESULT res =  s -> QueryInterface(iid, ppv);
     s -> Release();
     
     return res;
 }
 
-HRESULT_ FSMFactory::CreateInstanceWPar(const IID_& iid, void** ppv, int a)
+HRESULT FSMFactory::CreateInstance(IUnknown *pUnkOuter, const IID& iid, void** ppv)
+{
+    std::cout << "FSMFactory CreateInstance" << std::endl;
+    FSManager* s = new FSManager();
+
+    s -> AddRef();
+    HRESULT res =  s -> QueryInterface(iid, ppv);
+    s -> Release();
+    
+    return res;
+}
+
+HRESULT FSMFactory::CreateInstanceWPar(const IID& iid, void** ppv, int a)
 {
     std::cout << "FSManager CreateInstanceWPar" << std::endl;
     FSManager* s = new FSManager(a);
 
     s -> AddRef();
-    HRESULT_ res =  s -> QueryInterface(iid, ppv);
+    HRESULT res =  s -> QueryInterface(iid, ppv);
     s -> Release();
     
     return res;
@@ -121,15 +97,15 @@ FSMFactory::~FSMFactory()
     std::cout<<"FSMFactory Destruct"<<std::endl;
 }
 
-HRESULT_ FSMFactory::QueryInterface(const IID_& iid, void** ppv)
+HRESULT FSMFactory::QueryInterface(const IID& iid, void** ppv)
 {
-    if (iid == IID_IUnknown_)
+    if (iid == IID_IUnknown)
     {
-        *ppv = (IUnknown_*) (IClassFactory_*) this;
+        *ppv = (IUnknown*) (IClassFactory*) this;
     }
-    else if (iid == IID_IClassFactory_)
+    else if (iid == IID_IClassFactory)
     {
-        *ppv = static_cast<IClassFactory_*>(this);
+        *ppv = static_cast<IClassFactory*>(this);
     }
     else if (iid == IID_IFSMFactory)
     {
@@ -138,15 +114,15 @@ HRESULT_ FSMFactory::QueryInterface(const IID_& iid, void** ppv)
     else
     {
         *ppv = NULL;
-        return E_NOINTERFACE_;
+        return E_NOINTERFACE;
     }
     
     this->AddRef();
 
-    return S_OK_;
+    return S_OK;
 }
 
-ULONG_ FSMFactory::AddRef()
+ULONG FSMFactory::AddRef()
 {
     std::cout<<"FSMFactory AddRef"<<std::endl;
     fRefCount++;
@@ -154,7 +130,7 @@ ULONG_ FSMFactory::AddRef()
     return fRefCount;
 }
 
-ULONG_ FSMFactory::Release()
+ULONG FSMFactory::Release()
 {
     std::cout<<"FSMFactory Release"<<std::endl;
     fRefCount--;
@@ -166,4 +142,9 @@ ULONG_ FSMFactory::Release()
     }
     
     return fRefCount;
+}
+
+HRESULT FSMFactory::LockServer(BOOL bLock)
+{
+    return S_OK;
 }
