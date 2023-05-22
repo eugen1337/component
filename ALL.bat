@@ -1,14 +1,12 @@
-g++ -c ./server/source/Components.cpp -o ./server/build/Components.o
+g++ -c ./server/source/Component.cpp -o ./server/build/Component.o
+g++ -c ./server/source/main.cpp -o ./server/build/main.o
 
-g++ -shared ./server/build/Components.o -o ./manager/server.dll -Wl,--kill-at
+g++ -shared ./server/build/Component.o ./server/build/main.o -o C:\\component_dll\\server.dll -Wl,--kill-at -lole32 -loleaut32 -luser32
 
-g++ -c ./manager/manager.cpp -o ./manager/manager.o
+g++ -c ./client/source/Client.cpp -o ./client/build/client.o
 
-g++ -shared ./manager/manager.o -o ./client/build/lib/manager.dll -Wl,--kill-at
+g++ ./client/build/client.o -o ./client/build/client.exe -lole32 -loleaut32 -luser32
 
-
-g++ -c ./client/source/client.cpp  -o ./client/build/client.o
-g++ ./client/build/client.o -o ./client/build/client.exe
-"client/build/client.exe"
+.\client\build\client.exe
 
 pause
