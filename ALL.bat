@@ -1,7 +1,12 @@
-g++ -c ./server/source/Component.cpp -o ./server/build/Component.o
-g++ -c ./server/source/main.cpp -o ./server/build/main.o
+g++ -c ./server/simple/source/Component.cpp -o ./server/simple/build/Component.o
+g++ -c ./server/simple/source/main.cpp -o ./server/simple/build/main.o
 
-g++ -shared ./server/build/Component.o ./server/build/main.o -o C:\\component_dll\\server.dll -Wl,--kill-at -lole32 -loleaut32 -luser32
+g++ -shared ./server/simple/build/Component.o ./server/simple/build/main.o -o C:\\component_dll\\simple_server.dll -Wl,--kill-at -lole32 -loleaut32 -luser32
+
+g++ -c ./server/super/source/Component.cpp -o ./server/super/build/Component.o
+g++ -c ./server/super/source/main.cpp -o ./server/super/build/main.o
+
+g++ -shared ./server/super/build/Component.o ./server/super/build/main.o -o C:\\component_dll\\server.dll -Wl,--kill-at -lole32 -loleaut32 -luser32
 
 g++ -c ./client/source/Client.cpp -o ./client/build/client.o
 

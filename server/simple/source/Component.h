@@ -2,35 +2,30 @@
 
 #include "./Interfaces.h"
 
-class FSManager: public IFolderManager, public IFileManager, public IFSMInfo
+class FSMInfo: public IFSMInfo
 {
     private:
-        int refCount;
-        
+        int fRefCount;
+
     public:
-        FSManager();
-        ~FSManager();
+        FSMInfo();
+        ~FSMInfo();
         
         virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
         virtual ULONG __stdcall AddRef();
         virtual ULONG __stdcall Release();
-
-        virtual HRESULT __stdcall CreateFolder(char *path);
-        virtual HRESULT __stdcall DeleteFolder(char *path);
-
-		virtual HRESULT __stdcall CreateThisFile(char *path);
-		virtual HRESULT __stdcall DeleteThisFile(char *path);
         
         virtual HRESULT __stdcall fileInfo(char *path);
 };
 
-class FSMFactory : public IClassFactory, public IFSMFactory
+class InfoFactory : public IClassFactory, public IInfoFactory
 {
     private:
-        int refCount;
+        int fRefCount;
+        
     public:
-        FSMFactory();
-        ~FSMFactory();
+        InfoFactory();
+        ~InfoFactory();
 
         virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
         virtual ULONG __stdcall AddRef();

@@ -4,7 +4,7 @@
 FSMFactory::FSMFactory()
 {
     std::cout<<"FSMFactory::FSMFactory()"<<std::endl;
-    this -> refCount = 0;
+    this -> fRefCount = 0;
 }
 
 FSMFactory::~FSMFactory()
@@ -36,18 +36,18 @@ HRESULT FSMFactory::QueryInterface(const IID& iid, void** ppv)
 
 ULONG FSMFactory::AddRef()
 {
-    refCount++;
-    return refCount;
+    fRefCount++;
+    return fRefCount;
 }
 
 ULONG FSMFactory::Release()
 {
-    refCount--;
-    if (refCount == 0)
+    fRefCount--;
+    if (fRefCount == 0)
     {
         delete this;
     }
-    return refCount;
+    return fRefCount;
 }
 
 HRESULT FSMFactory::CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void** ppv)
@@ -78,12 +78,36 @@ HRESULT FSMFactory::LockServer(BOOL bLock)
 FSManager::FSManager()
 {
     std::cout<<"FSManager::FSManager()"<<std::endl;
-    refCount = 0;
+
+    fRefCount = 0;
+
+    CoInitialize(NULL);
+
+    IClassFactory* PCF = NULL;
+
+    HRESULT resFactory = CoGetClassObject(CLSID_FSMInfo, CLSCTX_INPROC_SERVER, NULL, IID_IClassFactory1, (void**) &PCF);
+
+    if (!SUCCEEDED(resFactory))
+    {
+        std::cout<<"No factory"<<std::endl;
+    }
+
+    HRESULT resInstance = PCF->CreateInstance(NULL, IID_IFSMInfo, (void**) &pinfo);
+
+    if (!SUCCEEDED(resInstance))
+    {
+        std::cout<<"No instance"<<std::endl;
+    }
+
+    PCF->Release();
+
+    CoUninitialize();
 }
 
 FSManager::~FSManager()
 {
     std::cout<<"FSManager::~FSManager()"<<std::endl;
+    pinfo -> Release();
 }
 
 HRESULT FSManager::QueryInterface(const IID& iid, void** ppv)
@@ -118,24 +142,24 @@ HRESULT FSManager::QueryInterface(const IID& iid, void** ppv)
 
 ULONG FSManager::AddRef()
 {
-    refCount++;
-    return refCount;
+    fRefCount++;
+    return fRefCount;
 }
 
 ULONG FSManager::Release()
 {
-    refCount--;
-    if (refCount == 0)
+    fRefCount--;
+    if (fRefCount == 0)
     {
         delete this;
     }
-    return refCount;
+    return fRefCount;
 }
 
 HRESULT FSManager::fileInfo(char *path)
 {
     std::cout<<"FSManager::fileInfo()"<<std::endl;
-    return S_OK;
+    return pinfo -> fileInfo(path);
 }
 
 HRESULT FSManager::CreateThisFile(char *path)
