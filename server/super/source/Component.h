@@ -23,6 +23,15 @@ class FSManager: public IFolderManager, public IFileManager, public IFSMInfo
 		virtual HRESULT __stdcall DeleteThisFile(char *path);
         
         virtual HRESULT __stdcall fileInfo(char *path);
+
+        // IDispatch (Begin)
+        virtual HRESULT __stdcall GetIDsOfNames(REFIID riid, LPOLESTR *rgszNames, UINT cNames, LCID lcid, DISPID *rgDispId);
+        virtual HRESULT __stdcall Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS *pDispParams, VARIANT *pVarResult,
+                                         EXCEPINFO *pExcepInfo, UINT *puArgErr);
+
+        virtual HRESULT __stdcall GetTypeInfoCount(UINT *pctinfo);
+        virtual HRESULT __stdcall GetTypeInfo(UINT iTInfo, LCID lcid, ITypeInfo **ppTInfo);
+        // IDispatch (End)
 };
 
 class FSMFactory : public IClassFactory, public IFSMFactory

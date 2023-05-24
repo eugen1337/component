@@ -1,6 +1,100 @@
 #include "./Component.h"
 #include <iostream>
 
+//IDispatch (Begin)
+HRESULT __stdcall FSManager::GetTypeInfoCount(UINT* pctinfo)
+{
+    std::cout<<"FSManager::GetTypeInfoCount()"<<std::endl;
+    return S_OK;
+}
+
+HRESULT __stdcall FSManager::GetTypeInfo(UINT iTInfo, LCID lcid, ITypeInfo** ppTInfo)
+{
+    std::cout<<"FSManager::GetTypeInfo()"<<std::endl;
+    return S_OK;
+}
+
+HRESULT __stdcall FSManager::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT cNames,
+                                    LCID lcid, DISPID* rgDispId)
+{
+    std::cout<<"FSManager::GetIDsOfNames"<<std::endl;
+    if (cNames!=1) {return E_NOTIMPL;}
+
+    //const wchar_t* src = rgszNames[0];
+    //char* dest = new char[32];
+    //wcstombs(dest,src,32);
+    //printf(dest); printf("\n");
+
+if (wcscmp(rgszNames[0],L"Fx1")==0)
+    {
+      rgDispId[0] = 1;
+    }
+    else if (wcscmp(rgszNames[0],L"Fy1")==0)
+    {
+      rgDispId[0] = 2;
+    }
+
+
+    //Property
+    else if (wcscmp(rgszNames[0],L"Px1")==0)
+    {
+      rgDispId[0] = 3;
+    }
+    else
+    {
+       return E_NOTIMPL;
+    }
+    return S_OK;
+}
+
+HRESULT __stdcall FSManager::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid,WORD wFlags, DISPPARAMS* pDispParams,VARIANT* pVarResult,
+                             EXCEPINFO* pExcepInfo, UINT* puArgErr)
+{
+    std::cout<<"FSManager::Invoke()"<<std::endl;
+    if (dispIdMember==1)
+    {
+       CreateFolder((char*) 'path');
+    }
+    else if (dispIdMember==2)
+    {
+       CreateThisFile((char*) 'path');
+    }
+    /*
+    //Property
+    else if (dispIdMember==3)
+    {
+       //printf("%d\n",wFlags);
+       if ( (wFlags==DISPATCH_PROPERTYGET) || (wFlags==1) || (wFlags==3) )
+       {
+          if (pVarResult!=NULL)
+          {
+            pVarResult->vt = VT_INT;
+            pVarResult->intVal = px1;
+          }
+       }
+       else if (wFlags==DISPATCH_PROPERTYPUT)
+       {
+          DISPPARAMS param = *pDispParams;
+          VARIANT arg = (param.rgvarg)[0];
+          //printf("%d\n",arg.vt);
+          VariantChangeType(&arg,&arg,0,VT_INT);
+          //printf("%d\n",arg.vt);
+          px1 = arg.intVal;
+       }
+       else
+       {
+         return E_NOTIMPL;
+       }
+    }
+    else
+    {
+      return E_NOTIMPL;
+    }
+    return S_OK;
+    */
+}
+//IDispatch (End)
+
 FSMFactory::FSMFactory()
 {
     std::cout<<"FSMFactory::FSMFactory()"<<std::endl;
