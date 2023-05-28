@@ -124,7 +124,7 @@ ULONG FSMInfo::Release()
     return fRefCount;
 }
 
-HRESULT FSMInfo::fileInfo(char *path)
+HRESULT FSMInfo::fileInfo(std::string path)
 {
     std::cout<<"FSMInfo::fileInfo()"<<std::endl;
     return S_OK;

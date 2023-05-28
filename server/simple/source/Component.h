@@ -15,7 +15,7 @@ class FSMInfo: public IFSMInfo
         virtual ULONG __stdcall AddRef();
         virtual ULONG __stdcall Release();
         
-        virtual HRESULT __stdcall fileInfo(char *path);
+        virtual HRESULT __stdcall fileInfo(std::string path);
 };
 
 class InfoFactory : public IClassFactory, public IInfoFactory

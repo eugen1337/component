@@ -2,6 +2,8 @@
 
 #include "windows.h"
 #include <objbase.h>
+#include <iostream>
+#include <string>
 
 const IID IID_IUnknown1 = {0x00000000,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
 const IID IID_IClassFactory1 = {0x00000001,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
@@ -15,7 +17,7 @@ const CLSID CLSID_FSMInfo = {0x29106A92,0x9342,0x4F4E,{0xA7,0x89,0xE4,0x20,0x21,
 class IFSMInfo : public IUnknown
 {
     public:
-        virtual HRESULT __stdcall fileInfo(char *path) = 0;
+        virtual HRESULT __stdcall fileInfo(std::string path) = 0;
 };
 
 class IInfoFactory : public IUnknown

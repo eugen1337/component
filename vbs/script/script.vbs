@@ -1,11 +1,14 @@
   set app = CreateObject("eugen.Application")
   
-  app.Fx1
+  app.CreateFolder("New Folder")
+  app.CreateThisFile("old file")
     
-  app.Px1 = 11
-  p = app.Px1()
+  app.testInt = 11
+  p = app.testInt()
   WScript.Echo(p)
 
-  app.Px1 = 111
-  p = app.Px1
+  WScript.Echo(app.testInt)
+
+  app.testInt = 111
+  p = app.testInt
   WScript.Echo(p)

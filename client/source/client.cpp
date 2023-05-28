@@ -44,9 +44,9 @@ int main()
 
     PCF->Release();
 
-    pifile -> CreateThisFile((char *)"New File");
-    pifold -> CreateFolder((char *)"New Folder");
-    piinfo -> fileInfo((char *)"test");
+    pifile -> CreateThisFile("New File");
+    pifold -> CreateFolder("New Folder");
+    piinfo -> fileInfo("test");
 
     std::cout<<"main end!!"<<std::endl;
     
