@@ -44,8 +44,12 @@ int main()
 
     PCF->Release();
 
-    pifile -> CreateThisFile("New File");
-    pifold -> CreateFolder("New Folder");
+    std::string folderPath = "C:/Users/EUgen/Desktop/Component/component/files/newFolder";
+    pifold -> CreateFolder(folderPath);
+
+    std::string filePath = "C:/Users/EUgen/Desktop/Component/component/files/test.txt";
+    pifile -> CreateThisFile(filePath);
+
     piinfo -> fileInfo("test");
 
     std::cout<<"main end!!"<<std::endl;

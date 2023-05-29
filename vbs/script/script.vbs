@@ -1,6 +1,6 @@
   set app = CreateObject("eugen.Application")
   
-  app.CreateFolder("New Folder")
+  app.CreateThisFile("C:/Users/EUgen/Desktop/Component/component/files/test.txt")
   app.CreateThisFile("old file")
     
   app.testInt = 11
