@@ -19,38 +19,49 @@ int main()
     }
 
     IFileManager* pifile = NULL;
-    HRESULT resInstance = PCF->CreateInstance(NULL, IID_IFileManager, (void**) &pifile);
+    HRESULT resInstance = PCF -> CreateInstance(NULL, IID_IFileManager, (void**) &pifile);
 
     if (!SUCCEEDED(resInstance))
     {
+        std::cout<<"No instance"<<std::endl;
         throw "No instance";
     }
 
     IFolderManager* pifold = NULL;
-    HRESULT resQuery = pifile->QueryInterface(IID_IFolderManager, (void**) &pifold);
+    HRESULT resQuery = pifile -> QueryInterface(IID_IFolderManager, (void**) &pifold);
 
     if (!SUCCEEDED(resQuery))
     {
+        std::cout<<"No QueryInterface"<<std::endl;
         throw "No QueryInterface";
     }
     
     IFSMInfo* piinfo = NULL;
-    HRESULT resQuery2 = pifold->QueryInterface(IID_IFSMInfo, (void**) &piinfo);
+    HRESULT resQuery2 = pifold -> QueryInterface(IID_IFSMInfo, (void**) &piinfo);
 
     if (!SUCCEEDED(resQuery2))
     {
+        std::cout<<"No QueryInterface 2"<<std::endl;
         throw "No QueryInterface 2";
     }
 
     PCF->Release();
 
-    std::string folderPath = "C:/Users/EUgen/Desktop/Component/component/files/newFolder";
+    std::string folderPath = "C:/Users/EUgen/Desktop/Component/component/files/cppCreatedThis";
     pifold -> CreateFolder(folderPath);
 
-    std::string filePath = "C:/Users/EUgen/Desktop/Component/component/files/test.txt";
+    // pifold -> DeleteFolder(folderPath);
+
+    std::string filePath = "C:/Users/EUgen/Desktop/Component/component/files/cppTest.txt";
     pifile -> CreateThisFile(filePath);
 
-    piinfo -> fileInfo("test");
+    // pifile -> DeleteThisFile(filePath);
+
+    piinfo -> fileInfo(filePath);
+
+    pifold -> Release();
+    pifile -> Release();
+    piinfo -> Release();
 
     std::cout<<"main end!!"<<std::endl;
     

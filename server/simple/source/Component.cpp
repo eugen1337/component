@@ -127,5 +127,45 @@ ULONG FSMInfo::Release()
 HRESULT FSMInfo::fileInfo(std::string path)
 {
     std::cout<<"FSMInfo::fileInfo()"<<std::endl;
+
+    std::cout<< GetFileAttributes(path.c_str()) <<std::endl;
+
+    // HANDLE h = CreateFile(path.c_str(),                          // name of the file
+    //                       GENERIC_READ,                         
+    //                       FILE_SHARE_READ, // sharing mode
+    //                       NULL,                                  // use default security descriptor
+    //                       OPEN_EXISTING,                     
+    //                       FILE_ATTRIBUTE_NORMAL,
+    //                       NULL);
+    // if (h)
+    // {
+    //     std::cout << "fileInfo() succeeded\n";
+    // }
+    // else
+    // {
+    //     std::cout << "fileInfo() failed:\n";
+
+    //     if (GetLastError() == ERROR_FILE_NOT_FOUND) 
+    //     {
+    //         std::cout << "Error File not found\n";
+    //     }
+    // }
+
+    // LPBY_HANDLE_FILE_INFORMATION lpFileInformation;
+    // bool res = GetFileInformationByHandle(h, lpFileInformation);
+    // if (res)
+    // {
+    //     std::cout << lpFileInformation;
+    // }
+    // else
+    // {
+    //     std::cout << "GetFileInformationByHandle() failed:\n";
+
+    //     if (GetLastError() == ERROR_FILE_NOT_FOUND) 
+    //     {
+    //         std::cout << "Error File not found\n";
+    //     }
+    // }
+
     return S_OK;
 }

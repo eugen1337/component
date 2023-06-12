@@ -16,7 +16,7 @@ class FSManager: public IFolderManager, public IFileManager, public IFSMInfo, pu
         virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
         virtual ULONG __stdcall AddRef();
         virtual ULONG __stdcall Release();
-
+        // Component methods
         virtual HRESULT __stdcall CreateFolder(std::string path);
         virtual HRESULT __stdcall DeleteFolder(std::string path);
 
