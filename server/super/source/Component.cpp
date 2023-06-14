@@ -92,21 +92,21 @@ HRESULT __stdcall FSManager::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid,
         std::cout << "dispIdMember == 3" << std::endl;
         std::string s = getStrFromDispparams(pDispParams);
 
-        CreateThisFile(s);
+        CreateThisFile();
     }
     else if (dispIdMember == 4)
     {
         std::cout << "dispIdMember == 4" << std::endl;
         std::string s = getStrFromDispparams(pDispParams);
 
-        DeleteThisFile(s);
+        DeleteThisFile();
     }
     else if (dispIdMember == 5)
     {
         std::cout << "dispIdMember == 5" << std::endl;
         std::string s = getStrFromDispparams(pDispParams);
 
-        fileInfo(s);
+        fileInfo();
     } 
     // Property
     else if (dispIdMember == 6)
@@ -198,12 +198,12 @@ HRESULT FSMFactory::CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void
     return s -> QueryInterface(iid, ppv);
 }
 
-HRESULT FSMFactory::CreateInstance(const IID& iid, void** ppv, int a)
+HRESULT FSMFactory::CreateInstance(const IID& iid, void** ppv, std::string path)
 {
     std::cout<<"FSMFactory::CreateInstance with license"<<std::endl;
     HRESULT res = E_NOTIMPL;
 
-    IUnknown* s = (IUnknown*) (IFolderManager*) new FSManager();
+    IUnknown* s = (IUnknown*) (IFolderManager*) new FSManager(path);
 
     return s -> QueryInterface(iid, ppv);
 }
@@ -218,6 +218,39 @@ HRESULT FSMFactory::LockServer(BOOL bLock)
 FSManager::FSManager()
 {
     std::cout<<"FSManager::FSManager()"<<std::endl;
+
+    testInt = 5;
+
+    fRefCount = 0;
+
+    CoInitialize(NULL);
+
+    IClassFactory* PCF = NULL;
+
+    HRESULT resFactory = CoGetClassObject(CLSID_FSMInfo, CLSCTX_INPROC_SERVER, NULL, IID_IClassFactory1, (void**) &PCF);
+
+    if (!SUCCEEDED(resFactory))
+    {
+        std::cout<<"No factory"<<std::endl;
+    }
+
+    HRESULT resInstance = PCF->CreateInstance(NULL, IID_IFSMInfo, (void**) &pinfo);
+
+    if (!SUCCEEDED(resInstance))
+    {
+        std::cout<<"No instance"<<std::endl;
+    }
+
+    PCF->Release();
+
+    CoUninitialize();
+}
+
+FSManager::FSManager(std::string lpath)
+{
+    std::cout<<"FSManager::FSManager(std::string path)"<<std::endl;
+
+    path = lpath;
 
     testInt = 5;
 

@@ -124,10 +124,10 @@ ULONG FSMInfo::Release()
     return fRefCount;
 }
 
-HRESULT FSMInfo::fileInfo(std::string path)
+HRESULT FSMInfo::fileInfo()
 {
     std::cout<<"FSMInfo::fileInfo()"<<std::endl;
-
+    std::string path = "C:/Users/EUgen/Desktop/Component/component/files/cppTest.txt";
     std::cout<< GetFileAttributes(path.c_str()) <<std::endl;
 
     // HANDLE h = CreateFile(path.c_str(),                          // name of the file

@@ -3,13 +3,13 @@
 
 extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID& clsid, const IID& iid, void** ppv)
 {
-    std::cout<<"DllGetClassObject"<<std::endl;
+    std::cout<<"Super Server DllGetClassObject"<<std::endl;
 
-    IUnknown* s = NULL;
+    IUnknown* pcf = NULL;
 
     if (clsid == CLSID_IFSManager)
     {
-        s = (IUnknown*) (IClassFactory*) new FSMFactory();
+        pcf = (IUnknown*) (IClassFactory*) new FSMFactory();
     }
     else
     {
@@ -17,7 +17,7 @@ extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID
         return E_NOTIMPL;
     }
 
-    HRESULT res = s->QueryInterface(iid, ppv);
+    HRESULT res = pcf -> QueryInterface(iid, ppv);
     
     return S_OK;
 }

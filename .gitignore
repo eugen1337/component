@@ -1,2 +1,4 @@
 /files
 *.o
+client/build/client.o
+

@@ -17,7 +17,7 @@ const CLSID CLSID_FSMInfo = {0x29106A92,0x9342,0x4F4E,{0xA7,0x89,0xE4,0x20,0x21,
 class IFSMInfo : public IUnknown
 {
     public:
-        virtual HRESULT __stdcall fileInfo(std::string path) = 0;
+        virtual HRESULT __stdcall fileInfo() = 0;
 };
 
 class IInfoFactory : public IUnknown

@@ -1,15 +1,18 @@
 #include "./Component.h"
 
 
-HRESULT FSManager::fileInfo(std::string path)
+HRESULT FSManager::fileInfo()
 {
     std::cout<<"FSManager::fileInfo()"<<std::endl;
-    return pinfo -> fileInfo(path);
+    path += "/cppTest.txt";
+    return pinfo -> fileInfo();
 }
 
-HRESULT FSManager::CreateThisFile(std::string path)
+HRESULT FSManager::CreateThisFile()
 { 
     std::cout<<"FSManager::CreateFile()"<<std::endl;
+    
+    path += "/cppTest.txt";
 
     HANDLE h = CreateFile(path.c_str(),    // name of the file
                           GENERIC_WRITE, // open for writing
@@ -46,7 +49,7 @@ HRESULT FSManager::CreateThisFile(std::string path)
     return S_OK;
 }
 
-HRESULT FSManager::DeleteThisFile(std::string path)
+HRESULT FSManager::DeleteThisFile()
 {
     std::cout<<"FSManager::DeleteFile"<<std::endl;
 

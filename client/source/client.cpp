@@ -8,9 +8,9 @@ int main()
     
     CoInitialize(NULL);
 
-    IClassFactory* PCF = NULL;
+    IFSMFactory* PCF = NULL;
 
-    HRESULT resFactory = CoGetClassObject(CLSID_IFSManager, CLSCTX_INPROC_SERVER, NULL, IID_IClassFactory1, (void**) &PCF);
+    HRESULT resFactory = CoGetClassObject(CLSID_IFSManager, CLSCTX_INPROC_SERVER, NULL, IID_IFSMFactory, (void**) &PCF);
 
     if (!SUCCEEDED(resFactory))
     {
@@ -18,8 +18,10 @@ int main()
         throw "No factory";
     }
 
+    std::string path = "C:/Users/EUgen/Desktop/Component/component/files";
+
     IFileManager* pifile = NULL;
-    HRESULT resInstance = PCF -> CreateInstance(NULL, IID_IFileManager, (void**) &pifile);
+    HRESULT resInstance = PCF -> CreateInstance(IID_IFileManager, (void**) &pifile, path);
 
     if (!SUCCEEDED(resInstance))
     {
@@ -47,17 +49,20 @@ int main()
 
     PCF->Release();
 
+
+    //Methods----------------------------------------
     std::string folderPath = "C:/Users/EUgen/Desktop/Component/component/files/cppCreatedThis";
     pifold -> CreateFolder(folderPath);
 
     // pifold -> DeleteFolder(folderPath);
 
     std::string filePath = "C:/Users/EUgen/Desktop/Component/component/files/cppTest.txt";
-    pifile -> CreateThisFile(filePath);
+    pifile -> CreateThisFile();
 
     // pifile -> DeleteThisFile(filePath);
 
-    piinfo -> fileInfo(filePath);
+    piinfo -> fileInfo();
+    //Methods END----------------------------------------
 
     pifold -> Release();
     pifile -> Release();
